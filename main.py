@@ -1,4 +1,4 @@
-
+import os
 from os.path import expanduser
 import argparse
 import subprocess
@@ -30,7 +30,10 @@ def create_repo():
         data['description'] = PROJECT_DESC
 
     response = client.post_repository(None, data, REPO_NAME, PROJECT_CONFIG['team'])
-    print response.text
+    if 'links' in response:
+        return response['links']['clone'][0]['href']
+    else:
+        print response
 
 def init():
     home = expanduser("~")
@@ -43,6 +46,16 @@ def init():
         print("Directory " , path ,  " already exists")
 
     GIT_REMOTE = create_repo()
+    
+    os.chdir(path)
+    subprocess.call(['git', 'init'])
+    subprocess.call(['git', 'remote', 'add', 'origin', GIT_REMOTE])
+    subprocess.call(['touch', '.gitignore'])
+    subprocess.call(['touch', 'README.md'])
+    subprocess.call(['git', 'add', '.'])
+    subprocess.call(['git', 'commit', '-m', "'[INITIAL] first commit'"])
+    subprocess.call(['git', 'push', '-u', 'origin', 'master'])
+    subprocess.call(['code', '.'])
 
 parser = argparse.ArgumentParser()
 parser.add_argument('repo', metavar='REPO', type=str, help='Set repository name')
