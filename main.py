@@ -1,9 +1,26 @@
 
+from os.path import expanduser
 import argparse
+import subprocess
+
+GIT_REMOTE= None
+
+
+def create_repo:
+    print "create repo"
 
 
 def init():
-    print 'init'
+    home = expanduser("~")
+    path = home+"/Development/%s"%WORKING_DIR
+    try:
+        # Create target Directory
+        os.mkdir(path)
+        print("Directory " , path ,  " Created ") 
+    except :
+        print("Directory " , path ,  " already exists")
+
+    GIT_REMOTE = create_repo()
 
 parser = argparse.ArgumentParser()
 parser.add_argument('repo', metavar='REPO', type=str, help='Set repository name')
