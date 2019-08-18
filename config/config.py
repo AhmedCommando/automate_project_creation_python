@@ -34,7 +34,7 @@ class Config():
 
     def getAuthConfig(self):
         return {
-            "username": self.config.get('AUTH', 'username')
+            "username": self.config.get('AUTH', 'username'),
             "password": self.config.get('AUTH', 'password')
         }
     

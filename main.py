@@ -2,13 +2,35 @@
 from os.path import expanduser
 import argparse
 import subprocess
+from config.config import Config
+from bitbucket.client import Client
 
 GIT_REMOTE= None
+AUTH_CONFIG= None
+PROJECT_CONFIG= None
+PROJECT_DESC= None
+PRIVATE= True
+WORKING_DIR= "NewProject"
+REPO_NAME= None
 
+def create_repo():
+    config = Config()
+    AUTH_CONFIG = config.getAuthConfig()
+    PROJECT_CONFIG = config.getProjectConfig()
+    client = Client(AUTH_CONFIG['username'], AUTH_CONFIG['password'])
+    data = {
+        "scm": "git",
+        "project": {
+            "key": PROJECT_CONFIG['projectKey']
+        },
+        "is_private": PRIVATE
+    }
 
-def create_repo:
-    print "create repo"
+    if (PROJECT_DESC):
+        data['description'] = PROJECT_DESC
 
+    response = client.post_repository(None, data, REPO_NAME, PROJECT_CONFIG['team'])
+    print response.text
 
 def init():
     home = expanduser("~")
