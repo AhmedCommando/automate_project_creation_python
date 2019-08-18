@@ -11,8 +11,6 @@ class Config():
         if (not self.config.sections()):
             self.createSections()
 
-
-
     def createSections(self):
         working_dir = raw_input("Project Name: ") 
         username = raw_input("Bitbucket Username: ")
@@ -33,3 +31,15 @@ class Config():
 
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
+
+    def getAuthConfig(self):
+        return {
+            "username": self.config.get('AUTH', 'username')
+            "password": self.config.get('AUTH', 'password')
+        }
+    
+    def getProjectConfig(self):
+        return {
+            "projectKey": self.config.get('PROJECT', 'projectKey'),
+            "team": self.config.get('PROJECT', 'team')
+        }
