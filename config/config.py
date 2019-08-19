@@ -33,12 +33,14 @@ class Config():
             config.write(configfile)
 
     def getAuthConfig(self):
+        self.config.read('config.ini')
         return {
             "username": self.config.get('AUTH', 'username'),
             "password": self.config.get('AUTH', 'password')
         }
     
     def getProjectConfig(self):
+        self.config.read('config.ini')
         return {
             "projectKey": self.config.get('PROJECT', 'projectKey'),
             "team": self.config.get('PROJECT', 'team')
